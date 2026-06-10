@@ -1,0 +1,66 @@
+.navbar{
+  position:fixed;
+
+  top:20px;
+  left:50%;
+
+  transform:translateX(-50%);
+
+  width:90%;
+  max-width:1300px;
+
+  border-radius:25px;
+
+  z-index:1000;
+}
+
+.nav-wrapper{
+  height:80px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-family:"Space Grotesk",sans-serif;
+
+  font-size:1.2rem;
+  font-weight:700;
+
+  letter-spacing:2px;
+}
+
+.nav-links{
+  display:flex;
+  gap:40px;
+}
+
+.nav-links a{
+  transition:.3s;
+}
+
+.nav-links a:hover{
+  color:#C084FC;
+}
+
+@media(max-width:768px){
+
+  .nav-links{
+    display:none;
+  }
+
+  .primary-btn{
+    display:none;
+  }
+}
+.navbar{
+  background: rgba(9,0,20,0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.nav-cta{
+  font-size: 0.85rem;
+  padding: 10px 22px;
+}

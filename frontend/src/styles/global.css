@@ -1,0 +1,225 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+:root{
+  --bg:#090014;
+  --card:#120824;
+
+  --primary:#8B5CF6;
+  --secondary:#C084FC;
+
+  --text:#FFFFFF;
+  --muted:#B5B2C8;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:"Inter",sans-serif;
+  background:var(--bg);
+  color:white;
+  overflow-x:hidden;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button{
+  cursor:pointer;
+  border:none;
+}
+
+img{
+  width:100%;
+  display:block;
+}
+
+.container{
+  width:90%;
+  max-width:1400px;
+  margin:auto;
+}
+
+.cosmic-bg{
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+
+  background:
+  radial-gradient(
+    circle at top,
+    #4c1d95,
+    #090014 60%
+  );
+}
+
+.stars{
+  position:absolute;
+  inset:0;
+
+  background-image:
+  radial-gradient(
+    rgba(255,255,255,.8) 1px,
+    transparent 1px
+  );
+
+  background-size:80px 80px;
+
+  opacity:.2;
+}
+
+.glass{
+  background:rgba(255,255,255,.05);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,.08);
+}
+
+.primary-btn{
+  padding:14px 30px;
+
+  border-radius:999px;
+
+  color:white;
+
+  background:
+  linear-gradient(
+    90deg,
+    #8B5CF6,
+    #C084FC
+  );
+
+  transition:.3s;
+}
+
+.primary-btn:hover{
+  transform:translateY(-3px);
+}
+/* Scroll Animation Utilities */
+section {
+  padding: 120px 0;
+}
+
+/* Floating orbs animation */
+@keyframes floatOrb {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+
+.planet {
+  animation: floatOrb 6s ease-in-out infinite;
+}
+
+.about-circle {
+  animation: floatOrb 7s ease-in-out infinite reverse;
+}
+
+/* Shimmer on service cards */
+.service-card {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(192,132,252,0.05) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.service-card:hover::before {
+  opacity: 1;
+}
+
+.service-card:hover {
+  box-shadow: 0 20px 60px rgba(139,92,246,0.25);
+  border-color: rgba(192,132,252,0.2);
+}
+
+/* Section titles with gradient underline */
+.section-title {
+  background: linear-gradient(90deg, #fff, #C084FC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Contact form inputs */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: white;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: rgba(192,132,252,0.5);
+  box-shadow: 0 0 20px rgba(139,92,246,0.1);
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.contact-form {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 50px;
+  border-radius: 25px;
+}
+
+.contact-form .primary-btn {
+  width: 100%;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+/* Stats hover */
+.stats > div {
+  cursor: default;
+  transition: transform 0.3s;
+}
+.stats > div:hover {
+  transform: translateY(-5px);
+}
+
+/* Animate stars slowly */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.3; }
+}
+
+.stars {
+  animation: twinkle 4s ease-in-out infinite;
+}

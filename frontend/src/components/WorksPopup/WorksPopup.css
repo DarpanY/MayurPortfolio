@@ -1,0 +1,431 @@
+/* ── Backdrop ────────────────────────────────────────────────── */
+.wp-backdrop {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  inset: 0;
+  z-index: 10000;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  /* The "room" atmosphere — subtle radial warm center like the ref */
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 60%,
+      rgba(180, 0, 120, 0.12) 0%,
+      rgba(80, 0, 160, 0.08) 40%,
+      #000 70%);
+}
+
+/* ── Main panel — the "room" container ─────────────────────── */
+.wp-panel {
+  position: relative;
+  width: 100%;
+  max-width: 1060px;
+  max-height: 92vh;
+  background: transparent;
+  border-radius: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  box-shadow: none;
+}
+
+/* ── Floor glow — the neon light spilling on the floor ─────── */
+.wp-floor-glow {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 260px;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 100%,
+      rgba(220, 0, 160, 0.22) 0%,
+      rgba(140, 0, 220, 0.12) 40%,
+      transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.wp-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 28px 16px;
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+}
+
+.wp-header-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 16px rgba(230, 0, 180, 0.9));
+}
+
+.wp-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 3px;
+  background: linear-gradient(90deg, #fff 20%, #ff40e0 60%, #ff0080 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  /* Simulate the bright center glow from ref image */
+  filter: drop-shadow(0 0 20px rgba(255, 0, 140, 0.6));
+}
+
+.wp-desc {
+  margin: 0;
+  color: rgba(200, 160, 230, 0.6);
+  font-size: 0.88rem;
+}
+
+.wp-close {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255,255,255,0.7);
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s, border-color 0.2s;
+  z-index: 10;
+}
+.wp-close:hover {
+  background: rgba(220, 0, 160, 0.3);
+  border-color: rgba(220, 0, 160, 0.6);
+  transform: rotate(90deg);
+}
+
+/* ── Count badge ────────────────────────────────────────────── */
+.wp-count {
+  padding: 4px 28px 12px;
+  position: relative;
+  z-index: 10;
+}
+.wp-count span {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(220, 100, 255, 0.5);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GALLERY — Panels floating in a dark room
+   Layout mimics the reference: panels arranged across the
+   "room" with depth perspective, dark gaps between them,
+   the whole thing sitting on a reflective dark floor.
+══════════════════════════════════════════════════════════════ */
+.wp-gallery {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 20px 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px 22px;
+  position: relative;
+  z-index: 5;
+  align-items: start;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(180, 0, 160, 0.3) transparent;
+  /* Perspective so panels feel like they're in a 3D room */
+  perspective: 1200px;
+}
+.wp-gallery::-webkit-scrollbar { width: 4px; }
+.wp-gallery::-webkit-scrollbar-thumb { background: rgba(180, 0, 160, 0.3); border-radius: 2px; }
+
+@media (max-width: 780px) { .wp-gallery { grid-template-columns: repeat(2, 1fr); gap: 20px 16px; } }
+@media (max-width: 480px) { .wp-gallery { grid-template-columns: 1fr; } }
+
+/* ── Each panel — floating "screen" in the dark room ────────── */
+.wp-item {
+  position: relative;
+  cursor: pointer;
+  /* Tall portrait-ish ratio like the panels in the reference */
+  aspect-ratio: 3/4;
+  background: #0a000f;
+  /* No border-radius — flat panels like in the ref image */
+  border-radius: 4px;
+  overflow: visible;
+  /* Subtle 3D tilt so they look like panels placed in a room */
+  transform: perspective(800px) rotateY(0deg);
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* Give middle column items (every 2nd in 3-col) a slight forward push */
+.wp-item:nth-child(3n+2) {
+  transform: perspective(800px) translateZ(20px) scale(1.03);
+  z-index: 2;
+}
+
+.wp-item:hover {
+  transform: perspective(800px) translateZ(30px) scale(1.04) !important;
+  z-index: 4;
+}
+
+/* ── The neon glow FRAME — like the illuminated edges in the ref */
+.wp-item-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 5;
+  /* Purple glow border, matching the side panels in ref image */
+  box-shadow:
+    0 0 0 1px rgba(140, 0, 220, 0.5),
+    0 0 14px rgba(140, 0, 220, 0.6),
+    0 0 40px rgba(140, 0, 220, 0.25),
+    inset 0 0 30px rgba(100, 0, 180, 0.15);
+  transition: box-shadow 0.35s ease;
+}
+
+/* On hover — flare to hot magenta like the central panel in ref */
+.wp-item:hover .wp-item-glow {
+  box-shadow:
+    0 0 0 1.5px rgba(255, 20, 180, 0.9),
+    0 0 20px rgba(255, 20, 180, 0.8),
+    0 0 60px rgba(255, 0, 140, 0.5),
+    0 0 120px rgba(200, 0, 255, 0.25),
+    inset 0 0 40px rgba(255, 0, 140, 0.1);
+}
+
+/* ── Floor reflection — each panel casts a glow downward ────── */
+.wp-item::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: 10%;
+  right: 10%;
+  height: 40px;
+  background: radial-gradient(ellipse 80% 100% at 50% 0%,
+    rgba(140, 0, 220, 0.35) 0%,
+    transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.35s;
+}
+.wp-item:hover::after {
+  background: radial-gradient(ellipse 80% 100% at 50% 0%,
+    rgba(255, 0, 140, 0.5) 0%,
+    transparent 100%);
+}
+
+/* ── Media ──────────────────────────────────────────────────── */
+.wp-item-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 3px;
+}
+.wp-item-media img,
+.wp-item-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease, filter 0.4s ease;
+  /* Slight desaturate at rest — like panels not fully lit */
+  filter: brightness(0.75) saturate(0.8);
+}
+.wp-item:hover .wp-item-media img,
+.wp-item:hover .wp-item-media video {
+  transform: scale(1.05);
+  /* Full brightness on hover — like the center panel in ref */
+  filter: brightness(1) saturate(1.1);
+}
+
+/* ── Hover overlay ──────────────────────────────────────────── */
+.wp-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 30%,
+    rgba(180, 0, 140, 0.4) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 2.2rem;
+  color: #fff;
+  text-shadow: 0 0 30px #ff00cc, 0 0 60px #cc00ff;
+  z-index: 3;
+  border-radius: 3px;
+}
+.wp-item:hover .wp-item-overlay { opacity: 1; }
+
+/* ── Title ──────────────────────────────────────────────────── */
+.wp-item-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 10px 8px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.85));
+  font-size: 0.76rem;
+  color: rgba(230, 180, 255, 0.85);
+  text-align: center;
+  z-index: 4;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+/* ── Empty state ────────────────────────────────────────────── */
+.wp-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 18px;
+  z-index: 5;
+  position: relative;
+}
+.wp-empty-icon {
+  font-size: 4rem;
+  filter: drop-shadow(0 0 30px rgba(220, 0, 160, 0.7));
+}
+.wp-empty p {
+  color: rgba(200, 160, 230, 0.45);
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FULL-SCREEN LIGHTBOX
+   When you click a panel — it "opens" like the bright central
+   portal in the reference image
+══════════════════════════════════════════════════════════════ */
+.wp-fs-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: #000;
+  background:
+    radial-gradient(ellipse 50% 60% at 50% 50%,
+      rgba(220, 0, 160, 0.15) 0%,
+      rgba(100, 0, 200, 0.08) 50%,
+      #000 75%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.wp-fs-box {
+  position: relative;
+  max-width: 860px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+/* The "portal" glow — hot magenta/pink like the center in ref */
+.wp-fs-glow {
+  position: absolute;
+  inset: -60px;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 60% 80% at 50% 50%,
+      rgba(255, 20, 160, 0.35) 0%,
+      rgba(180, 0, 255, 0.2) 40%,
+      transparent 70%);
+  /* Mimic the hot top → warm bottom gradient from ref image */
+  filter: blur(20px);
+}
+
+/* The media panel — tall and bright like the central portal */
+.wp-fs-media {
+  width: auto;
+  max-width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 3px;
+  /* Hot neon border — exactly like the central glowing panel */
+  border: none;
+  outline: 2px solid rgba(255, 40, 180, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(255, 40, 180, 0.4),
+    0 0 30px rgba(255, 0, 140, 0.7),
+    0 0 80px rgba(220, 0, 200, 0.5),
+    0 0 160px rgba(180, 0, 255, 0.3);
+}
+
+/* Floor reflection under the full-screen media */
+.wp-fs-box::after {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  left: 15%;
+  right: 15%;
+  height: 50px;
+  background: radial-gradient(ellipse 70% 100% at 50% 0%,
+    rgba(255, 0, 140, 0.4) 0%,
+    transparent 100%);
+  pointer-events: none;
+  filter: blur(4px);
+}
+
+.wp-fs-title {
+  color: rgba(240, 200, 255, 0.75);
+  font-size: 0.95rem;
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.wp-fs-close {
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 40, 180, 0.4);
+  color: rgba(255,255,255,0.8);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.2s, border-color 0.2s;
+  box-shadow: 0 0 12px rgba(255, 0, 140, 0.4);
+}
+.wp-fs-close:hover {
+  background: rgba(220, 0, 140, 0.4);
+  border-color: rgba(255, 40, 180, 0.8);
+  transform: rotate(90deg);
+}
+
+/* ── Mobile tweaks ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .wp-header { padding: 16px 16px 12px; }
+  .wp-gallery { padding: 6px 10px 60px; gap: 14px 12px; }
+  .wp-count { padding: 4px 16px 10px; }
+  .wp-item { border-radius: 3px; }
+  .wp-item:nth-child(3n+2) { transform: none; }
+}

@@ -1,0 +1,111 @@
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.hero-wrapper{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:60px;
+}
+
+.hero-left{
+  flex:1;
+}
+
+.hero-badge{
+  color:#C084FC;
+  letter-spacing:2px;
+  font-size:.9rem;
+}
+
+.hero-left h1{
+  margin-top:20px;
+  font-size:5rem;
+  line-height:1.05;
+  font-family:"Space Grotesk",sans-serif;
+}
+
+.hero-left p{
+  margin-top:25px;
+  max-width:550px;
+  color:#B5B2C8;
+  line-height:1.8;
+}
+
+.hero-buttons{
+  margin-top:30px;
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.hero-buttons a{
+  text-decoration:none;
+}
+
+.secondary-btn{
+  padding:12px 28px;
+  border-radius:50px;
+  border:1px solid rgba(192,132,252,.5);
+  background:transparent;
+  color:#C084FC;
+  font-size:1rem;
+  cursor:pointer;
+  transition:all .3s ease;
+}
+
+.secondary-btn:hover{
+  background:rgba(192,132,252,.1);
+  border-color:#C084FC;
+}
+
+.hero-right{
+  flex:1;
+  display:flex;
+  justify-content:center;
+}
+
+.planet{
+  width:500px;
+  height:500px;
+  border-radius:50%;
+  background:
+  radial-gradient(
+    circle at top,
+    #C084FC,
+    #8B5CF6,
+    #3B0764
+  );
+  box-shadow:
+  0 0 200px rgba(192,132,252,.5);
+}
+
+@media(max-width:992px){
+  .hero-wrapper{
+    flex-direction:column;
+    text-align:center;
+  }
+  .hero-buttons{
+    justify-content:center;
+  }
+  .hero-left h1{
+    font-size:3.5rem;
+  }
+  .planet{
+    width:320px;
+    height:320px;
+  }
+}
+
+@media(max-width:600px){
+  .hero-left h1{
+    font-size:2.4rem;
+  }
+  .planet{
+    width:250px;
+    height:250px;
+  }
+}
