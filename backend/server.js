@@ -8,12 +8,22 @@ const connectDB      = require("./config/db");
 const authRoutes     = require("./routes/authRoutes");
 const contactRoutes  = require("./routes/contactRoutes");
 const serviceRoutes  = require("./routes/serviceRoutes");
-
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://mayurportfolio.onrender.com",
+  "https://metthu-daanportfolio.netlify.app"  // your Netlify URL
+];
 const app = express();
 connectDB();
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
 
