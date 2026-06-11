@@ -25,6 +25,6 @@ new mongoose.Schema({
 
 module.exports =
 mongoose.model(
-  "Contact",
+  "ClientContact",
   contactSchema
 );
