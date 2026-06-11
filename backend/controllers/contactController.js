@@ -9,6 +9,7 @@ async (req,res) => {
     const {
       name,
       email,
+      phone,
       message
     } = req.body;
 
@@ -17,6 +18,7 @@ async (req,res) => {
 
       name,
       email,
+      phone,
       message
 
     });
