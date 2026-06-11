@@ -11,7 +11,7 @@ const serviceRoutes  = require("./routes/serviceRoutes");
 const allowedOrigins = [
   "http://localhost:5173",
   "https://mayurportfolio.onrender.com",
-  "https://metthu-daanportfolio.netlify.app"  // your Netlify URL
+  "https://mayurdhiman.netlify.app"  // your Netlify URL
 ];
 const app = express();
 connectDB();
