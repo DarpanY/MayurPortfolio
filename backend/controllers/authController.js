@@ -43,20 +43,20 @@ res.cookie("token", token, {
 // Admin credentials:  email: admin@mayur.com  |  password: Mayur@2024
 const seedAdmin = async (req, res) => {
   try {
-    const existing = await Admin.findOne({ email: "admin@mayur.com" });
+    const existing = await Admin.findOne({ email: "terapapakon@bol.com" });
     if (existing) {
       return res.json({ message: "Admin already exists" });
     }
 
-    const hashed = await bcrypt.hash("Mayur@2024", 10);
-    await Admin.create({ email: "admin@mayur.com", password: hashed });
+    const hashed = await bcrypt.hash("DarpanPapa", 10);
+    await Admin.create({ email: "terapapakon@bol.com", password: hashed });
 
     res.json({
       success: true,
       message: "✅ Admin account created!",
       credentials: {
-        email: "admin@mayur.com",
-        password: "Mayur@2024"
+        email: "terapapakon@bol.com",
+        password: "DarpanPapa"
       }
     });
   } catch (error) {
