@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const Admin = require("../models/Admin");
+    const isProd = process.env.NODE_ENV === "production";
 
 // ─── ADMIN LOGIN ───────────────────────────────────────────
 const loginAdmin = async (req, res) => {
@@ -23,11 +24,12 @@ const loginAdmin = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax"
-    });
+
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: isProd,           // true in production (HTTPS)
+  sameSite: isProd ? "none" : "lax"  // "none" required for cross-origin
+});
 
     res.json({ success: true, token });
 
