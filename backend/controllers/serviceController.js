@@ -113,4 +113,38 @@ const deleteWork = async (req, res) => {
   }
 };
 
-module.exports = { upload, getServices, createService, deleteService, addWork, deleteWork };
+const updateThumbnail = async (req, res) => {
+  try {
+    const service = await Service.findById(req.params.id);
+    if (!service) return res.status(404).json({ message: "Not found" });
+    if (!req.file) return res.status(400).json({ message: "Media file is required" });
+
+    // Delete old media from Cloudinary
+    const oldUrl = service.videoUrl || service.imageUrl;
+    if (oldUrl) {
+      try {
+        const parts = oldUrl.split("/");
+        const fn    = parts[parts.length - 1].split(".")[0];
+        const fo    = parts[parts.length - 2];
+        await cloudinary.uploader.destroy(`${fo}/${fn}`, {
+          resource_type: service.mediaType === "video" ? "video" : "image",
+        });
+      } catch (_) {}
+    }
+
+    const isVideo   = req.file.mimetype.startsWith("video/");
+    const mediaType = isVideo ? "video" : "image";
+    const url       = req.file.path;
+
+    service.mediaType = mediaType;
+    service.videoUrl  = isVideo ? url : "";
+    service.imageUrl  = !isVideo ? url : "";
+    await service.save();
+
+    res.json(service);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { upload, getServices, createService, deleteService, addWork, deleteWork, updateThumbnail };
